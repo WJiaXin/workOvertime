@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的接口-->
+<mapper namespace="com.six.group.dao.LogsDao">
+  <insert id="insert" parameterType="com.six.group.entity.Logs" useGeneratedKeys="true" keyProperty="logId">
+    insert into logs (log_userId, log_state, log_date, log_award)
+    values (#{logUserId}, #{logState},#{logDate},(select award from work_overtime where data=#{logDate}));
+  </insert>
+  <select id="getApplys" resultType="com.six.group.entity.Logs">
+    select DATE_FORMAT(log_date,'%Y-%m-%d') log_date,log_userId,log_state,log_award,log_id  from logs
+    where log_userId = #{logUserId} order by log_date desc
+  </select>
+  <select id="getNeedWork" resultType="com.six.group.entity.WorkOvertime">
+    select DATE_FORMAT(data,'%Y-%m-%d') data,award,type from work_overtime where data=#{workDay}
+  </select>
+  <select id="getApplyState" resultType="java.lang.Integer">
+   select ifnull
+   ((select log_state
+    from logs
+    where log_userId=#{logUserId} and log_date=#{logDate}),-1)
+  </select>
+</mapper>

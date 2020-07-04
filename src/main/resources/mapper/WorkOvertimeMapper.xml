@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace指向对应的接口-->
+<mapper namespace="com.six.group.dao.WorkOvertimeDao">
+
+	<select id="getData" resultType="com.six.group.entity.WorkOvertime">
+      select *from work_overtime where data=#{time}
+  	</select>
+	<insert id="postData">
+    insert into work_overtime values (#{data},#{award},#{type})
+	</insert>
+    <update id="putData">
+	update work_overtime set award=#{award},type=#{type} where data=#{data}
+	</update>
+	<select id="getDataUsersC" resultType="int">
+		select count(log_id) from logs where log_date=#{time} and log_state=1
+	</select>
+	<select id="getDataUsers" resultType="net.sf.json.JSONObject">
+		select DATE_FORMAT(l.log_date,'%Y-%m-%d') date,u.name,u.phone,w.type,l.log_award
+		from work_overtime w
+			left join `logs` l on l.log_date=w.`data`
+			left join user u on l.log_userId=u.phone
+		where l.log_date=#{time} and l.log_state=1
+		limit #{page},10
+	</select>
+	<select id="getDataLogsC" resultType="int">
+		select count(log_id) from logs where log_date between #{startTime} and #{endTime}
+	</select>
+	<select id="getDataLogs" resultType="net.sf.json.JSONObject">
+		select l.log_id,DATE_FORMAT(l.log_date,'%Y-%m-%d') date,u.name,u.phone,l.log_award,log_state
+		from logs l left join  user u
+			on l.log_userId=u.phone
+		where l.log_date between #{startTime} and #{endTime}
+		limit #{page},4
+	</select>
+	<update id="putLogs">
+		update logs set log_state=#{state} where log_id=#{logId}
+	</update>
+</mapper>
