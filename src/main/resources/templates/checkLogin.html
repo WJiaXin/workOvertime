@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<body>
+<h1>请登录！</h1>
+<h4 style="font-weight: normal"></h4>
+</body>
+<script>
+    function timer(intDiff) {
+        var count= window.setInterval(function () {
+            console.log(intDiff);
+            var minute = 0,
+                second = 0; //时间默认值
+            if (intDiff > 0) {
+                second = Math.floor(intDiff) - (minute * 60);
+            }else{
+                window.clearInterval(count);
+                window.location.href="login.html";
+            }
+            if (second <= 9) second = '0' + second;
+            $('h4').html(second + '秒后跳转到登录界面');
+            intDiff--;
+        }, 1000);
+    }
+    timer(3);
+</script>
+</html>

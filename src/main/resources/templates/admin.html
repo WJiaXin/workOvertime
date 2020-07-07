@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="../bootstrap-4.3.1-dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link href="http://at.alicdn.com/t/font_1216890_wxh988aybv.css"  rel="stylesheet">
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script src="../js/admin.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.24.0/moment-with-locales.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<style>
+    a{
+        color:#a7b1c2;
+    }
+    a:hover{
+        color: #FFF;
+    }
+    .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    }
+    .pageA{
+        background-color:#2e4250 !important;
+        color: #FFF !important;;
+    }
+    .pageB{
+        pointer-events:none;
+    }
+</style>
+<body>
+<div style="position:absolute;height: 100%;width: 100%;">
+
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="navbar-toggler-icon"></span>
+                </button> <a class="navbar-brand" href="login.html" style="margin-left:7.333333%; font-family:'Comic Sans MS', cursive; font-size:24px; "><i class="iconfont icon-jiaban" style="font-size:3em;"></i> 加班管理中心</a>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="navbar-nav ml-md-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">注册</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">登陆</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+
+           <div class="row" style="height: 100%;width: 100%;">
+               <div class="col-md-2 p-0" style="font-size:16px;background-color:#2f4050;">
+                   <div id="list" class="ml-3">
+                       <ul class="nav nav-pills flex-column"  role="tablist">
+                           <li class="nav-item p-2">
+                               <a class="nav-link active rounded-0" data-toggle="pill" href="#WO"><i class="iconfont icon-xuanze"></i> 餐/费选择</a>
+                           </li>
+                           <li class="nav-item p-2">
+                               <a class="nav-link rounded-0" data-toggle="pill" onclick="getroomapplt(1)" href="#WOS"><i class="iconfont icon-tongji"></i> 加班统计</a>
+                           </li>
+                           <li class="nav-item p-2">
+                               <a class="nav-link rounded-0" data-toggle="pill"  href="#WOexa"><i class="iconfont icon-shenpi"></i> 加班审批</a>
+                           </li>
+-->
+                       </ul>
+                   </div>
+               </div>
+
+
+               <div class="col-md-10">
+                   <div class="tab-content">
+
+                       <div id="WO" class="tab-pane active h-100 p-3">
+                           <h5>选择日期</h5>
+                           <div  class="rounded bg-white d-flex w-25 input-group" style="height:40px; border:#DDD solid 1px; float: left;">
+                               <div class="input-group-addon ml-3 mr-3 bg-white float-left"  style="line-height:38px;">
+                                   <span class="glyphicon glyphicon-calendar" style="color:#2f4050;"></span>
+                               </div>
+                               <input type="text" class="form-control border-0"  placeholder="管理日期" id="WOdate" >
+                           </div>
+                           <button class="btn btn-default ml-2" style="background-color: #2f4050; color:#FFF;height:40px;" onclick="searchWO()">查询</button>
+                           <hr>
+                           <h5>选择类型</h5>
+                           <div class="rounded bg-white d-flex w-25 input-group float-left mr-3" style="height:40px; border:#DDD solid 1px; ">
+                               <div class="ml-3 mr-3 bg-white">
+                                   <i class="iconfont icon-leixing" style="line-height:38px;" ></i></div>
+                               <div class="text-center align-content-center flex-grow-1">
+                               <select class="border-0 w-100 h-100" onchange="change(0)">
+                                   <option value="0">--选择类型--</option>
+                                   <option value="1"> 加班费</option>
+                                   <option value="2"> 加班餐</option>
+                               </select>
+                               </div>
+                           </div>
+                           <div class="rounded bg-white d-flex w-25 input-group ml-3 float-left" style="height:40px; border:#DDD solid 1px;display: none !important;" id="WOmoney">
+
+                               <div class="ml-3 mr-3 bg-white">
+                                   <i class="iconfont icon-feiyong" style="line-height:38px;" ></i>
+                               </div>
+                               <div class="text-center align-content-center flex-grow-1">
+                               <input type="text" class="form-control border-0"  placeholder="加班费" id="money" >
+                           </div>
+                           </div>
+
+                               <div class="rounded bg-white d-flex w-25 input-group float-left ml-3" style="height:40px; border:#DDD solid 1px;display: none !important;" id="WOfood">
+                                   <div class="ml-3 mr-3 bg-white">
+                                       <i class="iconfont icon-can" style="line-height:38px;" ></i></div>
+                                   <div class="text-center align-content-center flex-grow-1">
+                                       <select class="border-0 w-100 h-100">
+                                           <option value="套餐1"> 套餐1</option>
+                                           <option value="套餐2"> 套餐2</option>
+                                           <option value="套餐3"> 套餐3</option>
+                                       </select>
+                                   </div>
+                               </div>
+
+                           <button class="btn btn-default ml-2" style="background-color: #2e4250; color:#FFF;height:40px;display: none;" onclick="confirmWO()" id="confirm">添加</button>
+                           <button class="btn btn-default ml-2" style="background-color: #2e4250; color:#FFF;height:40px;display: none;" onclick="putWO()" id="put">修改</button>
+
+
+
+
+
+                       </div>
+
+                       <div id="WOS" class="tab-pane h-100 p-3">
+
+                           <h5>选择日期</h5>
+                           <div class="rounded bg-white d-flex w-25 input-group" style="height:40px; border:#DDD solid 1px; float: left;">
+                               <div class="input-group-addon ml-3 mr-3 bg-white float-left"  style="line-height:38px;">
+                                   <span class="glyphicon glyphicon-calendar" style="color:#2f4050;"></span>
+                               </div>
+                               <input type="text" class="form-control border-0"  placeholder="统计日期" id="Sdate" >
+                           </div>
+                           <button class="btn btn-default ml-2" style="background-color: #2f4050; color:#FFF;height:40px;" onclick="searchUser(1)">查询</button>
+                           <hr>
+                           <h5 class="mb-3">加班统计</h5>
+                           <table class="table" style="border-top: solid 2px">
+                               <tr>
+                                   <th>序号</th> <th>日期</th>  <th>姓名</th> <th>号码</th> <th>加班餐/费</th> <th>内容</th>
+                               </tr>
+                               </thead>
+                               <tbody class="table-primary" id="userList">
+                               </tbody>
+                           </table>
+
+                       </div>
+
+                       <div id="WOexa" class="tab-pane h-100 p-3">
+                           <h5>选择日期</h5>
+                           <div class="rounded bg-white d-flex w-25 float-left" style="height:40px; border:#DDD solid 1px;">
+                               <div class=" ml-3 mr-3 bg-white float-left" id="daterange" style="line-height:38px;">
+                                   <span class="glyphicon glyphicon-calendar" style="color:#2e4250;"></span>
+                               </div>
+                               <div id="daterangeC" class="flex-fill w-auto" style="color:#999;height:100%;float:left;font-size:14px;line-height:38px; padding-right:10px;">起始日期-结束日期
+                               </div>
+                           </div>
+                           <button class="btn btn-default ml-2" style="background-color: #2f4050; color:#FFF;height:40px;" onclick="searchExa(1)">查询</button>
+                           <hr>
+                           <h5 class="mb-3">加班审批</h5>
+                           <table class="table" style="border-top: solid 2px">
+                               <tr>
+                                   <th>日期</th>  <th>姓名</th> <th>号码</th> <th>申请内容</th> <th>审批</th>
+                               </tr>
+                               </thead>
+                               <tbody id="exaList">
+
+                               </tbody>
+                           </table>
+                           </div>
+
+                       </div>
+
+                   </div>
+               </div>
+
+
+           </div>
+
+</div>
+
+</body>
+</html>
